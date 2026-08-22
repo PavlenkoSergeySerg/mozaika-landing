@@ -1,0 +1,962 @@
+/* ========================================
+   CSS ПЕРЕМЕННЫЕ (цветовая схема)
+   ======================================== */
+   :root {
+    /* Основные цвета - тёплые нейтральные */
+    --color-bg: #faf8f5;           /* слоновая кость */
+    --color-bg-alt: #f5f0e8;       /* бежевый светлый */
+    --color-text: #2d2a26;         /* тёмно-коричневый */
+    --color-text-light: #6b6560;   /* серый тёплый */
+    --color-accent: #c9a961;       /* золото */
+    --color-accent-dark: #a8893f;  /* золото тёмное */
+    --color-primary: #8b6f47;      /* тёплое дерево */
+    --color-white: #ffffff;
+    --color-border: #e5ddd0;
+    
+    /* Типографика */
+    --font-main: 'Georgia', 'Times New Roman', serif;
+    --font-heading: 'Georgia', serif;
+    
+    /* Размеры */
+    --container-max: 1200px;
+    --section-padding: 80px 0;
+    --border-radius: 8px;
+    
+    /* Тени */
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
+  }
+  
+  /* ========================================
+     СБРОС СТИЛЕЙ
+     ======================================== */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: var(--font-main);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  a:hover {
+    color: var(--color-accent-dark);
+  }
+  
+  /* ========================================
+     КОНТЕЙНЕР
+     ======================================== */
+  .container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  /* ========================================
+     ЗАГОЛОВКИ СЕКЦИЙ
+     ======================================== */
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--color-text);
+    position: relative;
+    padding-bottom: 20px;
+  }
+  
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--color-accent);
+  }
+  
+  /* ========================================
+     КНОПКИ
+     ======================================== */
+  .btn {
+    display: inline-block;
+    padding: 16px 32px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-family: var(--font-main);
+  }
+  
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-white);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .btn-primary:hover {
+    background: var(--color-accent-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    color: var(--color-white);
+  }
+  
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-white);
+    border: 2px solid var(--color-white);
+  }
+  
+  .btn-secondary:hover {
+    background: var(--color-white);
+    color: var(--color-text);
+  }
+  
+  .btn-submit {
+    width: 100%;
+    padding: 18px;
+    font-size: 1.1rem;
+    margin-top: 20px;
+  }
+  
+  /* ========================================
+     БЛОК 1: HERO (Первый экран)
+     ======================================== */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                url('../img/hero-banner.png') center/cover no-repeat;
+    color: var(--color-white);
+    text-align: center;
+    padding: 100px 20px;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.3);
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+  }
+  
+  .logo-container {
+    margin-bottom: 30px;
+  }
+  
+  .logo {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+  }
+  
+  .hero h1 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+  
+  .hero-subtitle {
+    font-size: 1.3rem;
+    margin-bottom: 40px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+  
+  .hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  
+  .hero-note {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-top: 20px;
+  }
+  
+  /* ========================================
+     БЛОК 2: УТП (Иконки преимуществ)
+     ======================================== */
+  .usp {
+    padding: var(--section-padding);
+    background: var(--color-white);
+  }
+  
+  .usp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+  }
+  
+  .usp-item {
+    text-align: center;
+    padding: 30px 20px;
+    background: var(--color-bg);
+    border-radius: var(--border-radius);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .usp-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .usp-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+  }
+  
+  .usp-item h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--color-primary);
+  }
+  
+  .usp-item p {
+    color: var(--color-text-light);
+  }
+  
+  /* ========================================
+     БЛОК 3: КАК ЭТО РАБОТАЕТ
+     ======================================== */
+  .how-it-works {
+    padding: var(--section-padding);
+    background: var(--color-bg-alt);
+  }
+  
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+  
+  .step {
+    text-align: center;
+    padding: 30px 20px;
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+  }
+  
+  .step-number {
+    width: 60px;
+    height: 60px;
+    background: var(--color-accent);
+    color: var(--color-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 auto 20px;
+  }
+  
+  .step h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: var(--color-primary);
+  }
+  
+  .step p {
+    color: var(--color-text-light);
+  }
+  
+  .trust-note {
+    text-align: center;
+    padding: 20px;
+    background: var(--color-white);
+    border-left: 4px solid var(--color-accent);
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
+  }
+  
+  /* ========================================
+     БЛОК 4: ЧТО ВХОДИТ В НАБОР
+     ======================================== */
+  .whats-included {
+    padding: var(--section-padding);
+    background: var(--color-white);
+  }
+  
+  .included-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+  }
+  
+  .included-list ul {
+    list-style: none;
+    margin-bottom: 20px;
+  }
+  
+  .included-list li {
+    padding: 12px 0;
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .included-note {
+    font-style: italic;
+    color: var(--color-text-light);
+    padding: 15px;
+    background: var(--color-bg);
+    border-radius: var(--border-radius);
+  }
+  
+  .included-image img {
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+  }
+  
+  /* ========================================
+     БЛОК 5: РАЗМЕРЫ И ЦЕНЫ
+     ======================================== */
+  .sizes-prices {
+    padding: var(--section-padding);
+    background: var(--color-bg-alt);
+  }
+  
+  .prices-table {
+    overflow-x: auto;
+    margin-bottom: 30px;
+  }
+  
+  .prices-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .prices-table th,
+  .prices-table td {
+    padding: 18px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .prices-table th {
+    background: var(--color-primary);
+    color: var(--color-white);
+    font-weight: bold;
+  }
+  
+  .prices-table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .prices-table tr:hover {
+    background: var(--color-bg);
+  }
+  
+  .prices-table td:last-child {
+    font-weight: bold;
+    color: var(--color-accent-dark);
+    font-size: 1.1rem;
+  }
+  
+  .prices-note {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--color-text-light);
+    padding: 20px;
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+  }
+  
+  /* ========================================
+     БЛОК 6: ТРЕБОВАНИЯ К ФОТО
+     ======================================== */
+  .photo-requirements {
+    padding: var(--section-padding);
+    background: var(--color-white);
+  }
+  
+  .requirements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+  }
+  
+  .requirement {
+    text-align: center;
+    padding: 30px 20px;
+    background: var(--color-bg);
+    border-radius: var(--border-radius);
+    transition: transform 0.3s ease;
+  }
+  
+  .requirement:hover {
+    transform: translateY(-5px);
+  }
+  
+  .requirement-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+  }
+  
+  .requirement h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: var(--color-primary);
+  }
+  
+  .requirement p {
+    color: var(--color-text-light);
+  }
+  
+  /* ========================================
+     БЛОК 7: ГАЛЕРЕЯ РАБОТ
+     ======================================== */
+  .gallery {
+    padding: var(--section-padding);
+    background: var(--color-bg-alt);
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .gallery-item {
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    aspect-ratio: 4/3;
+  }
+  
+  .gallery-item:hover {
+    transform: scale(1.03);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .gallery-item:hover img {
+    transform: scale(1.05);
+  }
+  
+  /* ========================================
+     БЛОК 8: ОТЗЫВЫ
+     ======================================== */
+  .reviews {
+    padding: var(--section-padding);
+    background: var(--color-white);
+  }
+  
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+  
+  .review {
+    padding: 30px;
+    background: var(--color-bg);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--color-accent);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .review-text {
+    font-style: italic;
+    margin-bottom: 15px;
+    color: var(--color-text);
+  }
+  
+  .review-text p {
+    margin: 0;
+  }
+  
+  .review-author {
+    font-weight: bold;
+    color: var(--color-primary);
+    text-align: right;
+  }
+  
+  /* ========================================
+     БЛОК 9: СКИДКИ
+     ======================================== */
+  .discounts {
+    padding: var(--section-padding);
+    background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+  }
+  
+  .discounts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+  }
+  
+  .discount-item {
+    text-align: center;
+    padding: 40px 30px;
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease;
+  }
+  
+  .discount-item:hover {
+    transform: translateY(-5px);
+  }
+  
+  .discount-percent {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: var(--color-accent);
+    margin-bottom: 10px;
+  }
+  
+  .discount-item h3 {
+    font-size: 1.3rem;
+    color: var(--color-primary);
+  }
+  
+  .discounts-note {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--color-text-light);
+  }
+  
+  /* ========================================
+     БЛОК 10: FAQ
+     ======================================== */
+  .faq {
+    padding: var(--section-padding);
+    background: var(--color-white);
+  }
+  
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .faq-item {
+    padding: 25px;
+    margin-bottom: 20px;
+    background: var(--color-bg);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--color-accent);
+  }
+  
+  .faq-item h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: var(--color-primary);
+  }
+  
+  .faq-item p {
+    color: var(--color-text-light);
+    line-height: 1.6;
+  }
+  
+  /* ========================================
+     БЛОК 11: ФОРМА ЗАКАЗА
+     ======================================== */
+  .order-form {
+    padding: var(--section-padding);
+    background: var(--color-bg-alt);
+  }
+  
+  .order-form-bottom {
+    background: var(--color-bg);
+  }
+  
+  .form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--color-white);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .form-group {
+    margin-bottom: 25px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--color-text);
+  }
+  
+  .form-group input[type="text"],
+  .form-group input[type="tel"],
+  .form-group input[type="email"],
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-family: var(--font-main);
+    transition: border-color 0.3s ease;
+    background: var(--color-bg);
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    background: var(--color-white);
+  }
+  
+  .form-group input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--border-radius);
+    background: var(--color-bg);
+    cursor: pointer;
+  }
+  
+  .form-group input[type="file"]:hover {
+    border-color: var(--color-accent);
+  }
+  
+  .form-group small {
+    display: block;
+    margin-top: 5px;
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+  }
+  
+  .form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  
+  .form-group.checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .form-group.checkbox input[type="checkbox"] {
+    width: auto;
+    margin-top: 5px;
+  }
+  
+  .form-group.checkbox label {
+    font-weight: normal;
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+  }
+  
+  .form-message {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    display: none;
+  }
+  
+  .form-message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    display: block;
+  }
+  
+  .form-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    display: block;
+  }
+  
+  /* ========================================
+     БЛОК 12: КОНТАКТЫ
+     ======================================== */
+  .contacts {
+    padding: var(--section-padding);
+    background: var(--color-white);
+  }
+  
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+  }
+  
+  .contact-item {
+    display: flex;
+    gap: 20px;
+    padding: 25px;
+    background: var(--color-bg);
+    border-radius: var(--border-radius);
+    transition: transform 0.3s ease;
+  }
+  
+  .contact-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .contact-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+  
+  .contact-item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: var(--color-primary);
+  }
+  
+  .contact-item p {
+    color: var(--color-text-light);
+  }
+  
+  .contact-item a {
+    color: var(--color-primary);
+    font-weight: bold;
+  }
+  
+  .contact-item a:hover {
+    color: var(--color-accent-dark);
+  }
+  
+  /* ========================================
+     FOOTER
+     ======================================== */
+  .footer {
+    background: var(--color-text);
+    color: var(--color-white);
+    padding: 40px 0;
+    text-align: center;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .footer-info p {
+    margin: 5px 0;
+    opacity: 0.9;
+  }
+  
+  .footer-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .footer-links a {
+    color: var(--color-white);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+  }
+  
+  .footer-links a:hover {
+    opacity: 1;
+    color: var(--color-accent);
+  }
+  
+  /* ========================================
+     АДАПТИВНОСТЬ (MOBILE-FIRST)
+     ======================================== */
+  
+  /* Планшеты (до 1024px) */
+  @media (max-width: 1024px) {
+    .section-title {
+      font-size: 2rem;
+    }
+    
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+    
+    .included-content {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Мобильные (до 768px) */
+  @media (max-width: 768px) {
+    :root {
+      --section-padding: 60px 0;
+    }
+    
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+    }
+    
+    .hero {
+      min-height: 80vh;
+      padding: 60px 20px;
+    }
+    
+    .hero h1 {
+      font-size: 1.8rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.1rem;
+    }
+    
+    .hero-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .logo {
+      width: 80px;
+      height: 80px;
+    }
+    
+    .usp-grid,
+    .steps-grid,
+    .requirements-grid,
+    .reviews-grid,
+    .discounts-grid,
+    .contacts-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    
+    .form {
+      padding: 25px 20px;
+    }
+    
+    .prices-table th,
+    .prices-table td {
+      padding: 12px 10px;
+      font-size: 0.9rem;
+    }
+    
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+  
+  /* Маленькие мобильные (до 480px) */
+  @media (max-width: 480px) {
+    .hero h1 {
+      font-size: 1.5rem;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+    }
+    
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .discount-percent {
+      font-size: 2.5rem;
+    }
+  }
+  
+  /* ========================================
+     УТИЛИТЫ
+     ======================================== */
+  .text-center {
+    text-align: center;
+  }
+  
+  .mt-20 {
+    margin-top: 20px;
+  }
+  
+  .mb-20 {
+    margin-bottom: 20px;
+  }
+  
+  /* Анимация появления */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .usp-item,
+  .step,
+  .review,
+  .discount-item,
+  .gallery-item {
+    animation: fadeIn 0.6s ease forwards;
+  }
+  
