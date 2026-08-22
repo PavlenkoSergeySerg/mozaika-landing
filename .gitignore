@@ -1,0 +1,25 @@
+# PHP
+*.log
+vendor/
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node (если понадобится)
+node_modules/
+npm-debug.log
+
+# Временные файлы
+*.tmp
+*.temp
