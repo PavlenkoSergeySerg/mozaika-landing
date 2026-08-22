@@ -171,11 +171,132 @@
     background: rgba(0,0,0,0.3);
   }
   
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 900px;
-  }
+  .hero-content /* ========================================
+  НАВИГАЦИЯ В HERO
+  ======================================== */
+.hero-nav {
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   z-index: 10;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: 20px 40px;
+}
+
+.logo-container {
+   flex-shrink: 0;
+}
+
+.logo {
+   width: 70px;
+   height: 70px;
+   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+}
+
+.nav-menu {
+   display: flex;
+   list-style: none;
+   gap: 30px;
+   align-items: center;
+   margin: 0;
+   padding: 0;
+}
+
+.nav-menu a {
+   color: var(--color-white);
+   font-size: 1rem;
+   font-weight: 500;
+   text-decoration: none;
+   transition: color 0.3s ease;
+   text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.nav-menu a:hover {
+   color: var(--color-accent);
+}
+
+.nav-cta {
+   background: var(--color-accent);
+   padding: 10px 20px;
+   border-radius: var(--border-radius);
+   font-weight: bold;
+}
+
+.nav-cta:hover {
+   background: var(--color-accent-dark);
+   color: var(--color-white) !important;
+}
+
+/* Бургер-меню (скрыто на десктопе) */
+.burger-menu {
+   display: none;
+   flex-direction: column;
+   gap: 5px;
+   background: transparent;
+   border: none;
+   cursor: pointer;
+   padding: 5px;
+}
+
+.burger-menu span {
+   width: 28px;
+   height: 3px;
+   background: var(--color-white);
+   border-radius: 2px;
+   transition: all 0.3s ease;
+}
+
+/* Мобильная навигация */
+@media (max-width: 768px) {
+   .hero-nav {
+       padding: 15px 20px;
+   }
+   
+   .logo {
+       width: 50px;
+       height: 50px;
+   }
+   
+   .burger-menu {
+       display: flex;
+   }
+   
+   .nav-menu {
+       position: absolute;
+       top: 100%;
+       left: 0;
+       right: 0;
+       background: rgba(0, 0, 0, 0.95);
+       flex-direction: column;
+       gap: 0;
+       padding: 20px;
+       transform: translateY(-150%);
+       transition: transform 0.3s ease;
+   }
+   
+   .nav-menu.active {
+       transform: translateY(0);
+   }
+   
+   .nav-menu li {
+       width: 100%;
+       padding: 12px 0;
+       border-bottom: 1px solid rgba(255,255,255,0.1);
+   }
+   
+   .nav-menu a {
+       display: block;
+       font-size: 1.1rem;
+   }
+   
+   .nav-cta {
+       text-align: center;
+       margin-top: 10px;
+   }
+}
   
   .logo-container {
     margin-bottom: 30px;
@@ -959,4 +1080,3 @@
   .gallery-item {
     animation: fadeIn 0.6s ease forwards;
   }
-  
