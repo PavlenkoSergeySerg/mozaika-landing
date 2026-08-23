@@ -737,6 +737,11 @@
     color: var(--color-text-light);
     line-height: 1.6;
   }
+
+  .faq-item p a,
+.contact-item p a {
+  text-decoration: underline;
+}
   
   /* ========================================
      БЛОК 11: ФОРМА ЗАКАЗА
