@@ -861,6 +861,21 @@
     border: 1px solid #f5c6cb;
     display: block;
   }
+
+  /* Ошибки полей формы */
+.form-group.error input,
+.form-group.error select,
+.form-group.error textarea {
+  border-color: #d9534f;
+  background: #fdf5f5;
+}
+
+.error-message {
+  margin-top: 6px;
+  color: #d9534f;
+  font-size: 0.9rem;
+}
+
   
   /* ========================================
      БЛОК 12: КОНТАКТЫ
