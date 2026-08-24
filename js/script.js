@@ -145,10 +145,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Пока заглушка — на следующем этапе подключим отправку на email
-            const message = form.querySelector('.form-message');
-            message.className = 'form-message success';
-            message.textContent = '✅ Заявка готова к отправке! Следующий шаг — подключение отправки на email.';
+                       // --- ОТПРАВКА НА СЕРВЕР (AJAX, без перезагрузки страницы) ---
+                       const submitBtn = form.querySelector('.btn-submit');
+                       const message = form.querySelector('.form-message');
+           
+                       // Защита от двойного клика
+                       submitBtn.disabled = true;
+                       submitBtn.textContent = 'Отправляем...';
+           
+                       const formData = new FormData(form);
+           
+                       fetch('php/send.php', {
+                           method: 'POST',
+                           body: formData
+                       })
+                       .then(response => response.json())
+                       .then(data => {
+                           if (data.success) {
+                               message.className = 'form-message success';
+                               message.textContent = '✅ ' + data.message;
+                               form.reset(); // очищаем форму после успеха
+                           } else {
+                               message.className = 'form-message error';
+                               message.textContent = '⚠️ ' + (data.message || 'Не удалось отправить заявку. Попробуйте ещё раз.');
+                           }
+                       })
+                       .catch(() => {
+                           message.className = 'form-message error';
+                           message.textContent = '⚠️ Ошибка связи с сервером. Проверьте интернет и попробуйте ещё раз.';
+                       })
+                       .finally(() => {
+                           submitBtn.disabled = false;
+                           submitBtn.textContent = 'Отправить заявку';
+                       });
         });
     });
 

@@ -12,7 +12,7 @@
 $TO_EMAIL     = '52almz52@mail.ru';   // внутренняя почта для приёма заказов
 $FROM_EMAIL   = 'zakaz@am-52.ru';     // отправитель — ваш домен (меньше спама)
 $FROM_NAME    = 'AM-52.ru';
-$SITE_URL     = 'http://am-52.ru';    // после включения SSL замените на https://
+$SITE_URL     = 'https://am-52.ru';    // после включения SSL замените на https://
 $MAX_SIZE     = 20 * 1024 * 1024;     // 20 МБ
 $ALLOWED_EXT  = ['jpg', 'jpeg', 'png', 'webp'];
 

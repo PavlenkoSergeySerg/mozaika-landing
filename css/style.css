@@ -145,6 +145,12 @@
     font-size: 1.1rem;
     margin-top: 20px;
   }
+
+  .btn-submit:disabled {
+    background: var(--color-text-light);
+    cursor: not-allowed;
+    transform: none;
+  }
   
   /* ========================================
    БЛОК 1: HERO (Первый экран)
