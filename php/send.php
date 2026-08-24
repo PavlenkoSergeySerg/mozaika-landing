@@ -1,0 +1,116 @@
+<?php
+/**
+ * Приём заявки с формы:
+ * 1) серверная валидация;
+ * 2) сохранение фото в uploads/;
+ * 3) отправка письма на 52almz52@mail.ru через mail();
+ * 4) ответ в JSON для AJAX.
+ * Паролей в коде НЕТ — отправляем от имени домена am-52.ru.
+ */
+
+// ---------- НАСТРОЙКИ ----------
+$TO_EMAIL     = '52almz52@mail.ru';   // внутренняя почта для приёма заказов
+$FROM_EMAIL   = 'zakaz@am-52.ru';     // отправитель — ваш домен (меньше спама)
+$FROM_NAME    = 'AM-52.ru';
+$SITE_URL     = 'http://am-52.ru';    // после включения SSL замените на https://
+$MAX_SIZE     = 20 * 1024 * 1024;     // 20 МБ
+$ALLOWED_EXT  = ['jpg', 'jpeg', 'png', 'webp'];
+
+header('Content-Type: application/json; charset=utf-8');
+
+// Принимаем только POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['success' => false, 'message' => 'Неверный метод запроса']);
+    exit;
+}
+
+// ---------- СЕРВЕРНАЯ ВАЛИДАЦИЯ ----------
+$errors = [];
+
+$name = trim($_POST['name'] ?? '');
+if (mb_strlen($name) < 2) $errors[] = 'имя';
+
+$phone = trim($_POST['phone'] ?? '');
+$digits = preg_replace('/\D/', '', $phone);
+if (strlen($digits) < 10 || strlen($digits) > 11) $errors[] = 'телефон';
+
+$size = trim($_POST['size'] ?? '');
+if ($size === '') $errors[] = 'размер';
+
+$email = trim($_POST['email'] ?? '');
+if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'email';
+
+$comment = trim($_POST['comment'] ?? '');
+
+// Фото: обязательно, только картинки, до 20 МБ
+if (!isset($_FILES['photo']) || $_FILES['photo']['error'] !== UPLOAD_ERR_OK) {
+    $errors[] = 'фото';
+    $file = null;
+} else {
+    $file = $_FILES['photo'];
+    $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    if (!in_array($ext, $ALLOWED_EXT, true)) {
+        $errors[] = 'формат фото (нужен JPG/PNG/WEBP)';
+    } elseif ($file['size'] > $MAX_SIZE) {
+        $errors[] = 'фото больше 20 МБ';
+    } elseif (!@getimagesize($file['tmp_name'])) {
+        $errors[] = 'файл не является изображением';
+    }
+}
+
+if ($errors) {
+    http_response_code(422);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Проверьте поля: ' . implode(', ', $errors)
+    ]);
+    exit;
+}
+
+// ---------- СОХРАНЕНИЕ ФОТО ----------
+$uploadDir = __DIR__ . '/../uploads/';
+if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0755, true);
+    // Защита: запрещаем выполнение PHP в папке uploads
+    file_put_contents(
+        $uploadDir . '.htaccess',
+        "<FilesMatch \"\\.php$\">\nRequire all denied\n</FilesMatch>\n"
+    );
+}
+
+// Уникальное имя: дата + случайный код (никаких имён от клиента!)
+$newName = 'photo-' . date('Ymd-His') . '-' . bin2hex(random_bytes(4)) . '.' . $ext;
+
+if (!move_uploaded_file($file['tmp_name'], $uploadDir . $newName)) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Не удалось сохранить фото. Попробуйте ещё раз.']);
+    exit;
+}
+$photoUrl = $SITE_URL . '/uploads/' . $newName;
+
+// ---------- ОТПРАВКА ПИСЬМА ----------
+$subject = '=?UTF-8?B?' . base64_encode('Заявка am-52.ru: ' . $name) . '?=';
+
+$body = "НОВАЯ ЗАЯВКА С САЙТА am-52.ru\n"
+      . "--------------------------------\n"
+      . "Имя:     $name\n"
+      . "Телефон: $phone\n"
+      . ($email !== ''   ? "Email:   $email\n" : '')
+      . "Размер:  $size\n"
+      . ($comment !== '' ? "Комментарий: $comment\n" : '')
+      . "ФОТО:    $photoUrl\n"
+      . "--------------------------------\n"
+      . "Письмо отправлено автоматически.";
+
+$headers = "From: $FROM_NAME <$FROM_EMAIL>\r\n"
+         . "Reply-To: $FROM_EMAIL\r\n"
+         . "Content-Type: text/plain; charset=utf-8\r\n";
+
+if (!mail($TO_EMAIL, $subject, $body, $headers)) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Не удалось отправить заявку. Позвоните нам, пожалуйста: +7 (930) 284-61-71']);
+    exit;
+}
+
+echo json_encode(['success' => true, 'message' => 'Заявка отправлена! Мы свяжемся с вами в ближайшее время.']);
