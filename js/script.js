@@ -161,10 +161,15 @@ document.addEventListener('DOMContentLoaded', () => {
                        })
                        .then(response => response.json())
                        .then(data => {
-                           if (data.success) {
-                               message.className = 'form-message success';
-                               message.textContent = '✅ ' + data.message;
-                               form.reset(); // очищаем форму после успеха
+                        if (data.success) {
+                            // Цель Метрики: заявка отправлена
+                            if (typeof ym === 'function') {
+                                ym(112057294, 'reachGoal', 'order_sent');
+                            }
+                            message.className = 'form-message success';
+                            message.textContent = '✅ ' + data.message;
+                            form.reset(); // очищаем форму после успеха
+                        
                            } else {
                                message.className = 'form-message error';
                                message.textContent = '⚠️ ' + (data.message || 'Не удалось отправить заявку. Попробуйте ещё раз.');
