@@ -25,6 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// ---------- HONEYPOT: боты отсекаются молча ----------
+if (trim($_POST['website'] ?? '') !== '') {
+    echo json_encode(['success' => true, 'message' => 'Заявка отправлена! Мы свяжемся с вами в ближайшее время.']);
+    exit;
+}
+
 // ---------- СЕРВЕРНАЯ ВАЛИДАЦИЯ ----------
 $errors = [];
 
