@@ -482,6 +482,11 @@
                     <input type="checkbox" id="consent1" name="consent" required>
                     <label for="consent1">Нажимая кнопку, вы соглашаетесь на обработку персональных данных *</label>
                 </div>
+                <!-- Honeypot: человек не видит, бот заполняет. Не менять name="website" -->
+                <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+                    <label for="website">Не заполняйте это поле</label>
+                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                </div>
                 <button type="submit" class="btn btn-primary btn-submit">Отправить заявку</button>
                 <div class="form-message"></div>
             </form>

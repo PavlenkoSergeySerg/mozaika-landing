@@ -68,6 +68,16 @@ if ($errors) {
     exit;
 }
 
+// ---------- RATE-LIMIT: не более 1 заявки в 60 секунд с IP ----------
+$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+$rlFile = sys_get_temp_dir() . '/rl_am52_' . md5($ip);
+if (file_exists($rlFile) && (time() - filemtime($rlFile)) < 60) {
+    http_response_code(429);
+    echo json_encode(['success' => false, 'message' => 'Слишком много заявок. Попробуйте через минуту.']);
+    exit;
+}
+touch($rlFile);
+
 // ---------- СОХРАНЕНИЕ ФОТО ----------
 $uploadDir = __DIR__ . '/../uploads/';
 if (!is_dir($uploadDir)) {
