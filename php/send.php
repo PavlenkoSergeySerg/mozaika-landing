@@ -72,10 +72,14 @@ if ($errors) {
 $uploadDir = __DIR__ . '/../uploads/';
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);
-    // Защита: запрещаем выполнение PHP в папке uploads
-    file_put_contents(
-        $uploadDir . '.htaccess',
-        "<FilesMatch \"\\.php$\">\nRequire all denied\n</FilesMatch>\n"
+}
+// Защита деплоится с кодом, но страховка остаётся:
+$ht = $uploadDir . '.htaccess';
+if (!file_exists($ht)) {
+    file_put_contents($ht,
+        "Options -Indexes\n" .
+        "<FilesMatch \"\\.(php|phtml|php5|php7|phar)$\">\nRequire all denied\n</FilesMatch>\n" .
+        "Header set X-Content-Type-Options \"nosniff\"\n"
     );
 }
 

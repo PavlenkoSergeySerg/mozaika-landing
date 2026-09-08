@@ -23,3 +23,7 @@ npm-debug.log
 # Временные файлы
 *.tmp
 *.temp
+
+uploads/*
+!uploads/.htaccess
+
