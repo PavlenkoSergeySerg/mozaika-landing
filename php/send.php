@@ -143,4 +143,23 @@ if (!mail($TO_EMAIL, $subject, $body, $headers)) {
     exit;
 }
 
+// ---------- ЛОГ ЗАЯВКИ (вне webroot, для анализа спама/абьюза) ----------
+$logDir = __DIR__ . '/../../logs/';   // на сервере: ~/www/logs/ — вне корня сайта
+if (!is_dir($logDir)) {
+    mkdir($logDir, 0755, true);
+}
+// Защита от "log forging": убираем переводы строк из пользовательских полей
+$clean = fn($s) => str_replace(["\r", "\n"], ' ', $s);
+$logEntry = sprintf(
+    "[%s] IP=%s | name=%s | phone=%s | email=%s | size=%s | file=%s\n",
+    date('c'),
+    $_SERVER['REMOTE_ADDR'] ?? '-',
+    $clean($name),
+    $clean($phone),
+    $clean($email !== '' ? $email : '-'),
+    $clean($size),
+    $newName
+);
+file_put_contents($logDir . 'orders.log', $logEntry, FILE_APPEND | LOCK_EX);
+
 echo json_encode(['success' => true, 'message' => 'Заявка отправлена! Мы свяжемся с вами в ближайшее время.']);
