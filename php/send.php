@@ -62,6 +62,15 @@ if (!isset($_FILES['photo']) || $_FILES['photo']['error'] !== UPLOAD_ERR_OK) {
         $errors[] = 'фото больше 20 МБ';
     } elseif (!@getimagesize($file['tmp_name'])) {
         $errors[] = 'файл не является изображением';
+    } else {
+        // Дополнительная проверка реального MIME-типа (защита от полиглот-файлов)
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $realMime = finfo_file($finfo, $file['tmp_name']);
+        finfo_close($finfo);
+        $allowedMime = ['image/jpeg', 'image/png', 'image/webp'];
+        if (!in_array($realMime, $allowedMime, true)) {
+            $errors[] = 'реальный тип файла не соответствует изображению';
+        }
     }
 }
 
@@ -100,7 +109,7 @@ if (!file_exists($ht)) {
 }
 
 // Уникальное имя: дата + случайный код (никаких имён от клиента!)
-$newName = 'photo-' . date('Ymd-His') . '-' . bin2hex(random_bytes(4)) . '.' . $ext;
+$newName = 'photo-' . date('Ymd-His') . '-' . bin2hex(random_bytes(8)) . '.' . $ext;
 
 if (!move_uploaded_file($file['tmp_name'], $uploadDir . $newName)) {
     http_response_code(500);
