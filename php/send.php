@@ -132,8 +132,9 @@ $body = "НОВАЯ ЗАЯВКА С САЙТА am-52.ru\n"
       . "--------------------------------\n"
       . "Письмо отправлено автоматически.";
 
+$replyTo = ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL)) ? $email : $FROM_EMAIL;
 $headers = "From: $FROM_NAME <$FROM_EMAIL>\r\n"
-         . "Reply-To: $FROM_EMAIL\r\n"
+         . "Reply-To: $replyTo\r\n"
          . "Content-Type: text/plain; charset=utf-8\r\n";
 
 if (!mail($TO_EMAIL, $subject, $body, $headers)) {
