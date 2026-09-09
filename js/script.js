@@ -188,3 +188,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log('✅ Скрипты лендинга загружены');
 });
+
+// --- Липкий CTA: прячем, когда форма заказа видна на экране ---
+document.addEventListener('DOMContentLoaded', () => {
+    const cta = document.querySelector('.mobile-cta');
+    const orderSection = document.getElementById('order-form');
+    if (!cta || !orderSection || !('IntersectionObserver' in window)) return;
+
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+            cta.classList.toggle('is-hidden', en.isIntersecting);
+        });
+    }, { threshold: 0.2 });
+    io.observe(orderSection);
+
+    // Опционально: цель Метрики на клик по липкой кнопке (для анализа воронки)
+    cta.addEventListener('click', () => {
+        if (typeof ym === 'function') ym(112057294, 'reachGoal', 'mobile_cta_click');
+    });
+});
+
