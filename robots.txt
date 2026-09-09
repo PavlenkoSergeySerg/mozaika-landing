@@ -1,5 +1,12 @@
+# robots.txt для am-52.ru
 User-agent: *
+User-agent: GPTBot
+User-agent: CCBot
+User-agent: PerplexityBot
+User-agent: Google-Extended
+Allow: /
 Disallow: /php/
 Disallow: /uploads/
 
 Sitemap: https://am-52.ru/sitemap.xml
+# LLMs: https://am-52.ru/llms.txt

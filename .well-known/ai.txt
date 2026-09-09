@@ -1,0 +1,3 @@
+# AI Agent Configuration
+llms-txt: https://am-52.ru/llms.txt
+contact: mailto:zakaz-mozaika@yandex.ru
