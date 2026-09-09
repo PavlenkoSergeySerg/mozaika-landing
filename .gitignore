@@ -27,3 +27,5 @@ npm-debug.log
 uploads/*
 !uploads/.htaccess
 
+img/_orig/
+

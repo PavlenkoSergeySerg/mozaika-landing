@@ -162,7 +162,7 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-              url('../img/hero-banner.png') center/cover no-repeat;
+              url('../img/hero-banner.jpg') center/cover no-repeat;
   color: var(--color-white);
   text-align: center;
   padding: 60px 20px;
