@@ -1,1 +1,8 @@
 AddDefaultCharset utf-8
+
+# Страховка: даже без обновления ?v= css/js устаревают не дольше 1 дня
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "public, max-age=86400, must-revalidate"
+    </FilesMatch>
+</IfModule>
