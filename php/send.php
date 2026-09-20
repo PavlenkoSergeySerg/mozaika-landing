@@ -57,7 +57,7 @@ if (!isset($_FILES['photo']) || $_FILES['photo']['error'] !== UPLOAD_ERR_OK) {
     $file = $_FILES['photo'];
     $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     if (!in_array($ext, $ALLOWED_EXT, true)) {
-        $errors[] = 'формат фото (нужен JPG/PNG/WEBP)';
+        $errors[] = 'формат фото: JPG, PNG или WEBP (HEIC конвертируется на сайте автоматически)';
     } elseif ($file['size'] > $MAX_SIZE) {
         $errors[] = 'фото больше 20 МБ';
     } elseif (!@getimagesize($file['tmp_name'])) {

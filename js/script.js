@@ -83,9 +83,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- HEIC/HEIF → JPEG: конвертация на клиенте (Safari/iOS декодирует HEIC нативно) ---
+function convertHeicToJpeg(file) {
+    return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            canvas.getContext('2d').drawImage(img, 0, 0);
+            URL.revokeObjectURL(url);
+            canvas.toBlob((blob) => {
+                if (!blob) return reject(new Error('convert failed'));
+                resolve(new File([blob], file.name.replace(/\.(heic|heif)$/i, '.jpg'), { type: 'image/jpeg' }));
+            }, 'image/jpeg', 0.9);
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('HEIC не читается')); };
+        img.src = url;
+    });
+}
+
     // Проверка формы при отправке
     document.querySelectorAll('.form').forEach(form => {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault(); // не отправляем, пока не пройдёт проверку
             clearErrors(form);
 
@@ -152,8 +173,25 @@ document.addEventListener('DOMContentLoaded', () => {
                        // Защита от двойного клика
                        submitBtn.disabled = true;
                        submitBtn.textContent = 'Отправляем...';
+
+                       // HEIC конвертируем в JPEG до отправки (сервер принимает только jpg/png/webp)
+                        let convertedPhoto = null;
+                        const photoFile = photo.files[0];
+                        const isHeic = photoFile && (/\.(heic|heif)$/i.test(photoFile.name) || /heic|heif/i.test(photoFile.type));
+                        if (isHeic) {
+                        try {
+                        convertedPhoto = await convertHeicToJpeg(photoFile);
+                        } catch (err) {
+                        message.className = 'form-message error';
+                        message.textContent = '⚠️ Не удалось преобразовать HEIC. Сохраните фото как JPEG или PNG и загрузите снова.';
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Отправить заявку';
+                        return;
+                        }
+            }
            
-                       const formData = new FormData(form);
+                        const formData = new FormData(form);
+                        if (convertedPhoto) formData.set('photo', convertedPhoto, convertedPhoto.name);
            
                        fetch('php/send.php', {
                            method: 'POST',
