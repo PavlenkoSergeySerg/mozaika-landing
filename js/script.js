@@ -106,6 +106,15 @@ function convertHeicToJpeg(file) {
 
     // Проверка формы при отправке
     document.querySelectorAll('.form').forEach(form => {
+        // --- Ступень воронки: пользователь прикрепил фото к форме ---
+        const photoInput = form.querySelector('input[type="file"][name="photo"]');
+        if (photoInput) {
+        photoInput.addEventListener('change', () => {
+        if (photoInput.files && photoInput.files.length > 0) {
+            if (typeof ym === 'function') ym(112057294, 'reachGoal', 'photo_uploaded');
+        }
+        });
+}
         form.addEventListener('submit', async (e) => {
             e.preventDefault(); // не отправляем, пока не пройдёт проверку
             clearErrors(form);
