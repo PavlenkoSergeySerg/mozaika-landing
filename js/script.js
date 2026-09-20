@@ -139,12 +139,14 @@ function convertHeicToJpeg(file) {
             }
 
             // Фото
-            const photo = form.querySelector('input[name="photo"]');
             if (!photo.files.length) {
-                showError(photo, 'Загрузите фото для мозаики');
-                errors.push('фото');
-                isValid = false;
-            } else if (photo.files[0].size > 20 * 1024 * 1024) {
+            errors.push('фото');
+            showError(photo, 'Прикрепите фото (JPG/PNG/HEIC)');
+            isValid = false;
+            // Оцифровка "дыры": попытка отправки формы без прикреплённого фото
+            if (typeof ym === 'function') ym(112057294, 'reachGoal', 'no_photo_submit_attempt');
+            }
+            else if (photo.files[0].size > 20 * 1024 * 1024) {
                 showError(photo, 'Файл больше 20 МБ — выберите фото поменьше');
                 errors.push('фото (файл слишком большой)');
                 isValid = false;
@@ -190,7 +192,8 @@ function convertHeicToJpeg(file) {
                         }
             }
            
-                        const formData = new FormData(form);
+                       
+                       const formData = new FormData(form);
                         if (convertedPhoto) formData.set('photo', convertedPhoto, convertedPhoto.name);
            
                        fetch('php/send.php', {
