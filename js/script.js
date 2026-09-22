@@ -148,6 +148,7 @@ function convertHeicToJpeg(file) {
             }
 
             // Фото
+            const photo = form.querySelector('input[name="photo"]');
             if (!photo.files.length) {
             errors.push('фото');
             showError(photo, 'Прикрепите фото (JPG/PNG/HEIC)');
