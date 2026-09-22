@@ -114,6 +114,22 @@ function convertHeicToJpeg(file) {
             if (typeof ym === 'function') ym(112057294, 'reachGoal', 'photo_uploaded');
         }
         });
+            // --- "Дыра": попытка отправки БЕЗ фото (ловим на клике: нативная
+        // валидация браузера не пропускает submit без required-полей) ---
+        const submitBtnEl = form.querySelector('.btn-submit');
+        if (submitBtnEl) {
+        submitBtnEl.addEventListener('click', () => {
+            const nameOk = (form.querySelector('input[name="name"]')?.value.trim().length || 0) >= 2;
+            const phoneDigits = (form.querySelector('input[name="phone"]')?.value || '').replace(/\D/g, '');
+            const phoneOk = phoneDigits.length >= 10 && phoneDigits.length <= 11;
+            const sizeOk = !!form.querySelector('select[name="size"]')?.value;
+            const consentOk = !!form.querySelector('input[name="consent"]')?.checked;
+            // считаем только "форма заполнена, но фото нет" — чистая дыра
+            if (!photoInput.files.length && nameOk && phoneOk && sizeOk && consentOk) {
+                if (typeof ym === 'function') ym(112057294, 'reachGoal', 'no_photo_submit_attempt');
+            }
+        });
+    }
 }
         form.addEventListener('submit', async (e) => {
             e.preventDefault(); // не отправляем, пока не пройдёт проверку
@@ -153,8 +169,6 @@ function convertHeicToJpeg(file) {
             errors.push('фото');
             showError(photo, 'Прикрепите фото (JPG/PNG/HEIC)');
             isValid = false;
-            // Оцифровка "дыры": попытка отправки формы без прикреплённого фото
-            if (typeof ym === 'function') ym(112057294, 'reachGoal', 'no_photo_submit_attempt');
             }
             else if (photo.files[0].size > 20 * 1024 * 1024) {
                 showError(photo, 'Файл больше 20 МБ — выберите фото поменьше');
