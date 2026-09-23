@@ -108,12 +108,28 @@ function convertHeicToJpeg(file) {
     document.querySelectorAll('.form').forEach(form => {
         // --- Ступень воронки: пользователь прикрепил фото к форме ---
         const photoInput = form.querySelector('input[type="file"][name="photo"]');
-        if (photoInput) {
+    if (photoInput) {
+        // Ступень воронки: фото прикреплено
         photoInput.addEventListener('change', () => {
-        if (photoInput.files && photoInput.files.length > 0) {
-            if (typeof ym === 'function') ym(112057294, 'reachGoal', 'photo_uploaded');
-        }
+            // гасим красную подсказку, как только файл выбран
+            const group = photoInput.closest('.form-group');
+            if (group) {
+                group.classList.remove('error');
+                const em = group.querySelector('.error-message');
+                if (em) em.remove();
+            }
+            if (photoInput.files && photoInput.files.length > 0) {
+                if (typeof ym === 'function') ym(112057294, 'reachGoal', 'photo_uploaded');
+            }
         });
+
+        // Мобильный кейс: поле фото вне экрана → нативный пузырь не виден.
+        // invalid срабатывает, когда браузер завернул отправку из-за фото
+        photoInput.addEventListener('invalid', () => {
+            showError(photoInput, 'Вы забыли загрузить фото');
+            photoInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+        
             // --- "Дыра": попытка отправки БЕЗ фото (ловим на клике: нативная
         // валидация браузера не пропускает submit без required-полей) ---
         const submitBtnEl = form.querySelector('.btn-submit');
