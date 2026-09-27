@@ -31,7 +31,7 @@
     <link rel="apple-touch-icon" href="img/logo-diamond.png">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="css/style.css?v=20260923">
+    <link rel="stylesheet" href="css/style.css?v=20260927">
   
     <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -550,10 +550,10 @@
                     <input type="checkbox" id="consent1" name="consent" required>
                     <label for="consent1">Нажимая кнопку, вы соглашаетесь на обработку персональных данных *</label>
                 </div>
-                <!-- Honeypot: человек не видит, бот заполняет. Не менять name="website" -->
+                <!-- Honeypot: человек не видит, бот заполняет. Имя поля: hp_blank (не использовать токены автозаполнения) -->
                 <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
-                    <label for="website">Не заполняйте это поле</label>
-                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                    <label for="hp_blank">Не заполняйте это поле</label>
+                    <input type="text" name="hp_blank" id="hp_blank" autocomplete="off" tabindex="-1" aria-hidden="true" value="" style="position:absolute; left:-9999px;">
                 </div>
                 <button type="submit" class="btn btn-primary btn-submit">Отправить заявку</button>
                 <div class="form-message"></div>
@@ -624,7 +624,7 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="js/script.js?v=20260923"></script>
+    <script src="js/script.js?v=20260927"></script>
 
     <!-- Липкий CTA для мобильных: ведёт к форме заказа -->
     <a href="#order-form" class="mobile-cta">Заказать</a>

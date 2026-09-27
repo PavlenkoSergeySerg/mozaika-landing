@@ -25,8 +25,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// ---------- HONEYPOT: боты отсекаются молча ----------
-if (trim($_POST['website'] ?? '') !== '') {
+// ---------- HONEYPOT: боты отсекаются молча, но с записью в лог ----------
+if (trim($_POST['hp_blank'] ?? '') !== '') {
+    $logDir = __DIR__ . '/../../logs/';
+    if (!is_dir($logDir)) { mkdir($logDir, 0755, true); }
+    file_put_contents($logDir . 'orders.log',
+        sprintf("[%s] HONEYPOT IP=%s | value=%s\n", date('c'),
+            $_SERVER['REMOTE_ADDR'] ?? '-',
+            substr(trim($_POST['hp_blank']), 0, 50)),
+        FILE_APPEND | LOCK_EX);
     echo json_encode(['success' => true, 'message' => 'Заявка отправлена! Мы свяжемся с вами в ближайшее время.']);
     exit;
 }

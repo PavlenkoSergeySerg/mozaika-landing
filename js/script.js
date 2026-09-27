@@ -134,7 +134,10 @@ function convertHeicToJpeg(file) {
         // валидация браузера не пропускает submit без required-полей) ---
         const submitBtnEl = form.querySelector('.btn-submit');
         if (submitBtnEl) {
-        submitBtnEl.addEventListener('click', () => {
+           submitBtnEl.addEventListener('click', () => {
+            // гасим "висячее" сообщение прошлой попытки (зелёное или красное)
+            const msgEl = form.querySelector('.form-message');
+            if (msgEl) { msgEl.className = 'form-message'; msgEl.textContent = ''; }
             const nameOk = (form.querySelector('input[name="name"]')?.value.trim().length || 0) >= 2;
             const phoneDigits = (form.querySelector('input[name="phone"]')?.value || '').replace(/\D/g, '');
             const phoneOk = phoneDigits.length >= 10 && phoneDigits.length <= 11;
@@ -143,14 +146,20 @@ function convertHeicToJpeg(file) {
             // считаем только "форма заполнена, но фото нет" — чистая дыра
             if (!photoInput.files.length && nameOk && phoneOk && sizeOk && consentOk) {
                 if (typeof ym === 'function') ym(112057294, 'reachGoal', 'no_photo_submit_attempt');
-            }
+            }               
         });
     }
 }
+          // любое действие в форме сбрасывает общий баннер сообщения
+                form.addEventListener('input', () => {
+                const m = form.querySelector('.form-message');
+                if (m && m.textContent) { m.className = 'form-message'; m.textContent = ''; }
+                }); 
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault(); // не отправляем, пока не пройдёт проверку
             clearErrors(form);
-
+              
             let isValid = true;
             const errors = []; // список незаполненных полей
 
